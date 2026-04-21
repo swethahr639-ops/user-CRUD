@@ -28,7 +28,7 @@ public class UserEntity {
 	private String firstName; // Firstname of the user
 	@Column(name = "LAST_NAME", length = 50, nullable = false)
 	private String lastName; // LastName of the user
-	@Column(name = "email_id", leghth = 100, nullable = false, unique = true)
+	@Column(name = "email_id", length = 100, nullable = false, unique = true)
 	private String emailId; // EmailID must be unique
 	@Column(name = "PASSORD", length = 100, nullable = false)
 	private String password;

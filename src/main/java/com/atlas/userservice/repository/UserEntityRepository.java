@@ -7,10 +7,9 @@ import com.atlas.userservice.repository.entity.UserEntity;
 
 @Repository
 /*
- * Repository interface for userEntity
- * provides CRUD Operations without implementations 
+ * Repository interface for userEntity provides CRUD Operations without
+ * implementations
  */
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
-	
 
 }

@@ -1,4 +1,4 @@
-package com.atlas.userservice.service.ddo;
+package com.atlas.userservice.service.dto;
 
 import java.sql.Date;
 import java.time.LocalDate;

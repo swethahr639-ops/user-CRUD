@@ -1,15 +1,17 @@
 package com.atlas.userservice.service.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /*
  * generic response wrapper for all API's
+ * @param T
  */
 public class CommonResponseDTO<T> {
 	private String message;// response message 
 	private int status;// Http Status code
 	private T data;// actual response data 
-	private LocalDate timeStamp;// Response time
+	private LocalDateTime timeStamp;// Response time
 	/*
 	 * Constructor
 	 * 
@@ -18,7 +20,7 @@ public class CommonResponseDTO<T> {
 	 * @param data
 	 * @param timestamp
 	 */
-	public CommonResponseDTO(String message, int status, T data, LocalDate timeStamp) {
+	public CommonResponseDTO(String message, int status, T data, LocalDateTime timeStamp) {
 		super();
 		this.message = message;
 		this.status = status;
@@ -34,7 +36,7 @@ public class CommonResponseDTO<T> {
 	public T getData() {
 		return data;
 	}
-	public LocalDate getTimeStamp() {
+	public LocalDateTime getTimeStamp() {
 		return timeStamp;
 	}
 

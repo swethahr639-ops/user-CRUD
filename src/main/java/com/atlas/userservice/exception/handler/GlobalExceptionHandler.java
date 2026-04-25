@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.atlas.userservice.exception.BadRequestException;
 import com.atlas.userservice.exception.ErrorResponse;
+import com.atlas.userservice.exception.InvalidUserException;
 import com.atlas.userservice.exception.UserNotFoundException;
 
 /*
@@ -63,6 +64,16 @@ public class GlobalExceptionHandler {
 		ErrorResponse error = new ErrorResponse("Somethin went wrong.please try again later",
 				HttpStatus.INTERNAL_SERVER_ERROR.value(), LocalDateTime.now());
 		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // return response with status 500
+	}
+	
+	/*
+	 * handles all Invalid exceptions 
+	 */
+	@ExceptionHandler(InvalidUserException.class)
+	public ResponseEntity<ErrorResponse> handleInvalidUser(InvalidUserException ex)
+	{
+		ErrorResponse error= new ErrorResponse(ex.getMessage(),  HttpStatus.UNAUTHORIZED.value(), LocalDateTime.now());
+		return new ResponseEntity<>(error,HttpStatus.UNAUTHORIZED);
 	}
 
 }

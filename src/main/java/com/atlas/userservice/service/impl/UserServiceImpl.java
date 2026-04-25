@@ -11,7 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import com.atlas.userservice.UserserviceApplication;
 import com.atlas.userservice.exception.BadRequestException;
+import com.atlas.userservice.exception.InvalidUserException;
 import com.atlas.userservice.exception.UserNotFoundException;
+import com.atlas.userservice.exception.handler.GlobalExceptionHandler;
 import com.atlas.userservice.repository.UserEntityRepository;
 import com.atlas.userservice.repository.entity.UserEntity;
 import com.atlas.userservice.service.UserService;
@@ -26,6 +28,8 @@ import com.atlas.userservice.service.mapper.UserMapper;
 @Service
 public class UserServiceImpl implements UserService {
 
+	private final GlobalExceptionHandler globalExceptionHandler;
+
 	private final UserserviceApplication userserviceApplication;
 
 	private final UserEntityRepository userEntityRepository;
@@ -39,11 +43,12 @@ public class UserServiceImpl implements UserService {
 	 * @param userMApper
 	 */
 	public UserServiceImpl(UserEntityRepository userEntityRepository, UserMapper userMapper,
-			UserserviceApplication userserviceApplication) {
+			UserserviceApplication userserviceApplication, GlobalExceptionHandler globalExceptionHandler) {
 		super();
 		this.userEntityRepository = userEntityRepository;
 		this.userMapper = userMapper;
 		this.userserviceApplication = userserviceApplication;
+		this.globalExceptionHandler = globalExceptionHandler;
 	}
 
 	@Override
@@ -83,7 +88,6 @@ public class UserServiceImpl implements UserService {
 				LocalDateTime.now());
 	}
 
-	@Override
 	public CommonResponseDTO<UserResponseDTO> updateUser(Long userID, UserRequestDTO userRequestDTO) {
 		if (userRequestDTO == null) {
 			throw new BadRequestException("Request body mst be entered");
@@ -91,27 +95,39 @@ public class UserServiceImpl implements UserService {
 		Optional<UserEntity> optionalUser = userEntityRepository.findById(userID);
 		if (optionalUser.isPresent()) {
 			UserEntity userEntity = optionalUser.get();
-			userMapper.updateEntity(userRequestDTO, userEntity);
+			userMapper.updateEntity(null, userEntity);
 			UserEntity updatedUserEntity = userEntityRepository.save(userEntity);
-			UserResponseDTO userResponseDTO = userMappper.toDto(updatedUserEntity);
+			UserResponseDTO userResponseDTO = userMapper.toDto(updatedUserEntity);
 
-		
-		return new CommonResponseDTO<>("User details are successfully updated", HttpStatus.OK.value(), userResponseDTO,
-				LocalDateTime.now());
+			return new CommonResponseDTO<>("User details are successfully updated", HttpStatus.OK.value(),
+					userResponseDTO, LocalDateTime.now());
 		}
-		throw new UserNotFoundException("user details are not fount fr given userId:" +userID);
+		throw new UserNotFoundException("user details are not fount fr given userId:" + userID);
 	}
 
 	@Override
 	public CommonResponseDTO<Void> deletUser(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<UserEntity> optionalUser = userEntityRepository.findById(userId);
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException("user details are not found for given userId:" + userId);
+		}
+		userEntityRepository.delete(optionalUser.get());
+
+		return new CommonResponseDTO<>("user details are successfully deleted for given user id",
+				HttpStatus.NO_CONTENT.value(), null, LocalDateTime.now());
 	}
+
 
 	@Override
 	public CommonResponseDTO<UserResponseDTO> getUser(String emailId, String password) {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<UserEntity> optionalUser =userEntityRepository.findByEmailIdAndPassword(emailId,password);
+		
+		if(optionalUser.isEmpty())
+		{
+		throw new InvalidUserException("Invalid emailId and password");
+		}
+		
+		return new CommonResponseDTO<>("usr is successfully loged in ", HttpStatus.OK.value(),userMapper.toDto(optionalUser.get()) , LocalDateTime.now());
 	}
 
 }

@@ -2,6 +2,7 @@ package com.atlas.userservice.service.impl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -66,8 +67,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public CommonResponseDTO<List<UserResponseDTO>> getUsers() {
-		// TODO Auto-generated method stub
-		return null;
+		List<UserEntity> usersList = userEntityRepository.findAll();
+		List<UserResponseDTO> users = new ArrayList<>();
+		for (UserEntity userEntity : usersList) {
+			UserResponseDTO userResponseDTO = userMapper.toDto(userEntity);
+			users.add(userResponseDTO);
+		}
+		return new CommonResponseDTO<>("users details are sucessfully fetched ", HttpStatus.OK.value(), users,
+				LocalDateTime.now());
 	}
 
 	@Override

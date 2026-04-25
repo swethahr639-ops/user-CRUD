@@ -1,5 +1,6 @@
 package com.atlas.userservice.service.impl;
 
+import java.lang.foreign.Linker.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,7 +9,8 @@ import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-
+import com.atlas.userservice.UserserviceApplication;
+import com.atlas.userservice.exception.BadRequestException;
 import com.atlas.userservice.exception.UserNotFoundException;
 import com.atlas.userservice.repository.UserEntityRepository;
 import com.atlas.userservice.repository.entity.UserEntity;
@@ -24,6 +26,8 @@ import com.atlas.userservice.service.mapper.UserMapper;
 @Service
 public class UserServiceImpl implements UserService {
 
+	private final UserserviceApplication userserviceApplication;
+
 	private final UserEntityRepository userEntityRepository;
 	private final UserMapper userMapper;
 
@@ -34,10 +38,12 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @param userMApper
 	 */
-	public UserServiceImpl(UserEntityRepository userEntityRepository, UserMapper userMapper) {
+	public UserServiceImpl(UserEntityRepository userEntityRepository, UserMapper userMapper,
+			UserserviceApplication userserviceApplication) {
 		super();
 		this.userEntityRepository = userEntityRepository;
 		this.userMapper = userMapper;
+		this.userserviceApplication = userserviceApplication;
 	}
 
 	@Override
@@ -78,9 +84,22 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public CommonResponseDTO<UserResponseDTO> updateUser(Long userID, UserResponseDTO userResponseDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public CommonResponseDTO<UserResponseDTO> updateUser(Long userID, UserRequestDTO userRequestDTO) {
+		if (userRequestDTO == null) {
+			throw new BadRequestException("Request body mst be entered");
+		}
+		Optional<UserEntity> optionalUser = userEntityRepository.findById(userID);
+		if (optionalUser.isPresent()) {
+			UserEntity userEntity = optionalUser.get();
+			userMapper.updateEntity(userRequestDTO, userEntity);
+			UserEntity updatedUserEntity = userEntityRepository.save(userEntity);
+			UserResponseDTO userResponseDTO = userMappper.toDto(updatedUserEntity);
+
+		
+		return new CommonResponseDTO<>("User details are successfully updated", HttpStatus.OK.value(), userResponseDTO,
+				LocalDateTime.now());
+		}
+		throw new UserNotFoundException("user details are not fount fr given userId:" +userID);
 	}
 
 	@Override

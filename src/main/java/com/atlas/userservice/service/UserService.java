@@ -16,7 +16,7 @@ public interface UserService {
 
 	public CommonResponseDTO<List<UserResponseDTO>> getUsers();
 
-	public CommonResponseDTO<UserResponseDTO> updateUser(Long userID, UserResponseDTO userResponseDTO);
+	public CommonResponseDTO<UserResponseDTO> updateUser(Long userID, UserRequestDTO userRequestDTO);
 
 	public CommonResponseDTO<Void> deletUser(Long userId);
 

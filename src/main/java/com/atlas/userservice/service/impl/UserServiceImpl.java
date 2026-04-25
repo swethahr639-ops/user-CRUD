@@ -3,10 +3,12 @@ package com.atlas.userservice.service.impl;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import com.atlas.userservice.exception.UserNotFoundException;
 import com.atlas.userservice.repository.UserEntityRepository;
 import com.atlas.userservice.repository.entity.UserEntity;
 import com.atlas.userservice.service.UserService;
@@ -52,7 +54,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public CommonResponseDTO<UserResponseDTO> getUser(Long userId) {
-		return null;
+		Optional<UserEntity> optionalUser = userEntityRepository.findById(userId);
+		if (optionalUser.isEmpty()) {
+			throw new UserNotFoundException("user details are not found fo given user id:" + userId);
+		}
+		UserEntity userEntity = optionalUser.get();
+
+		return new CommonResponseDTO<UserResponseDTO>("user details successfully  fetched or retrived",
+				HttpStatus.OK.value(), userMapper.toDto(userEntity), LocalDateTime.now());
 	}
 
 	@Override

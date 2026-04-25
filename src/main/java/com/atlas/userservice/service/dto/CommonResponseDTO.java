@@ -1,6 +1,5 @@
 package com.atlas.userservice.service.dto;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 /*

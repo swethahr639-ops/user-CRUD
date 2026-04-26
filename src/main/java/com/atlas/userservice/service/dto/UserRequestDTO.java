@@ -27,11 +27,14 @@ public class UserRequestDTO {
 
 	@NotBlank(message = "passord is required") // must not be empty
 	@Size(min = 8, max = 20, message = "passord must be 8 to 20 characters")
-	@Pattern(regexp = "^(?=.[A-Z])(?=.[a-z])(?=.\\d)(?=.[@#$%^&+=!]).*$", message = "passord must contain uppercase, loercase,number,and special charecter")
+	@Pattern(
+		    regexp = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!]).*$",
+		    message = "Password must contain uppercase, lowercase, number, and special character"
+		)
 	private String password;
 
 	@NotBlank(message = "contactNumber is required")
-	@Pattern(regexp = "^[6-9]\\d{9}$", message = "invalid phone number") // validates
+	@Pattern(regexp = "^[6-9]\\d{9}$", message = "Invalid phone number") // validates
 	private String contactNumber;
 
 	@NotNull(message = "date of birth is required")

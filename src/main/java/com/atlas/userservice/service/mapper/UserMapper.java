@@ -20,6 +20,7 @@ public class UserMapper {
 		userEntity.setLastName(userRequestDTO.getLastName());
 		userEntity.setContactnumber(userRequestDTO.getContactNumber());
 		userEntity.setEmailId(userRequestDTO.getEmailId());
+		userEntity.setPassword(userRequestDTO.getPassword());
 		userEntity.setDateOfBirth(Date.valueOf(userRequestDTO.getDateOfBirth()));
 
 		return userEntity;
@@ -56,6 +57,7 @@ public class UserMapper {
 			userEntity.setLastName(userResponseDTO.getLastName());
 			userEntity.setContactnumber(userResponseDTO.getContactNumber());
 			userEntity.setEmailId(userResponseDTO.getEmailId());
+			userEntity.setPassword(userResponseDTO.getPassword());
 			userEntity.setDateOfBirth(Date.valueOf(userResponseDTO.getDateOfBirth()));
 			
 			

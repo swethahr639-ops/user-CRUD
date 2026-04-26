@@ -130,10 +130,6 @@ public class UserServiceImpl implements UserService {
 		return new CommonResponseDTO<>( ApplicationConstants.GET_USER_LOGIN , HttpStatus.OK.value(),userMapper.toDto(optionalUser.get()) , LocalDateTime.now());
 	}
 
-	@Override
-	public CommonResponseDTO<UserResponseDTO> updateUser(Long userID, UserResponseDTO userResponseDTO) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }

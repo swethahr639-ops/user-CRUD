@@ -30,17 +30,17 @@ public class UserEntity {
 	private String lastName; // LastName of the user
 	@Column(name = "email_id", length = 100, nullable = false, unique = true)
 	private String emailId; // EmailID must be unique
-	@Column(name = "PASSORD", length = 100, nullable = false)
+	@Column(name = "PASSWORD", length = 100, nullable = false)
 	private String password;
 	@Column(name = "CONTACTNUMBER", length = 10, nullable = false)
 	private String contactnumber;
 	@Column(name = "STATUS", length = 100, nullable = false)
 	private String status;
-	@Column(name = "LAST_LOGIN", nullable = false)
+	@Column(name = "LAST_LOGIN")
 	private LocalDateTime lastlogin;
-	@Column(name = "CREATED_AT", nullable = false, updatable = false)
+	@Column(name = "CREATED_AT")
 	private LocalDateTime createdAt;
-	@Column(name = "UPDATED_AT", nullable = true, updatable = true)
+	@Column(name = "UPDATED_AT")
 	private LocalDateTime updatedAt;
 	@Column(name = "DATE_OF_BIRTH", nullable = false, updatable = false)
 	private Date dateOfBirth;

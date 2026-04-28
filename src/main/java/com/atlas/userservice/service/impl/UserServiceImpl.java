@@ -28,9 +28,6 @@ import com.atlas.userservice.service.mapper.UserMapper;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private final GlobalExceptionHandler globalExceptionHandler;
-
-	private final UserserviceApplication userserviceApplication;
 
 	private final UserEntityRepository userEntityRepository;
 	private final UserMapper userMapper;
@@ -42,14 +39,7 @@ public class UserServiceImpl implements UserService {
 	 * 
 	 * @param userMApper
 	 */
-	public UserServiceImpl(UserEntityRepository userEntityRepository, UserMapper userMapper,
-			UserserviceApplication userserviceApplication, GlobalExceptionHandler globalExceptionHandler) {
-		super();
-		this.userEntityRepository = userEntityRepository;
-		this.userMapper = userMapper;
-		this.userserviceApplication = userserviceApplication;
-		this.globalExceptionHandler = globalExceptionHandler;
-	}
+
 
 	@Override
 	public CommonResponseDTO<Long> saveUser(UserRequestDTO userRequestDTO) {
@@ -62,6 +52,12 @@ public class UserServiceImpl implements UserService {
 			return response;
 		}
 		return null;
+	}
+
+	public UserServiceImpl(UserEntityRepository userEntityRepository, UserMapper userMapper) {
+		super();
+		this.userEntityRepository = userEntityRepository;
+		this.userMapper = userMapper;
 	}
 
 	@Override
@@ -95,7 +91,7 @@ public class UserServiceImpl implements UserService {
 		Optional<UserEntity> optionalUser = userEntityRepository.findById(userID);
 		if (optionalUser.isPresent()) {
 			UserEntity userEntity = optionalUser.get();
-			userMapper.updateEntity(null, userEntity);
+			userMapper.updateEntity(userRequestDTO, userEntity);
 			UserEntity updatedUserEntity = userEntityRepository.save(userEntity);
 			UserResponseDTO userResponseDTO = userMapper.toDto(updatedUserEntity);
 

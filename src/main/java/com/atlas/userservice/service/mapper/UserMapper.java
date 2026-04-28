@@ -51,14 +51,14 @@ public class UserMapper {
 
 	}
  
-	public void updateEntity(UserResponseDTO userResponseDTO,UserEntity userEntity) {
-		if (userResponseDTO !=null&&userEntity!=null ) {
-			userEntity.setFirstName(userResponseDTO.getFirstName());
-			userEntity.setLastName(userResponseDTO.getLastName());
-			userEntity.setContactnumber(userResponseDTO.getContactNumber());
-			userEntity.setEmailId(userResponseDTO.getEmailId());
-			userEntity.setPassword(userResponseDTO.getPassword());
-			userEntity.setDateOfBirth(Date.valueOf(userResponseDTO.getDateOfBirth()));
+	public void updateEntity(UserRequestDTO userRequestDTO,UserEntity userEntity) {
+		if (userRequestDTO !=null&&userEntity!=null ) {
+			userEntity.setFirstName(userRequestDTO.getFirstName());
+			userEntity.setLastName(userRequestDTO.getLastName());
+			userEntity.setContactnumber(userRequestDTO.getContactNumber());
+			userEntity.setEmailId(userRequestDTO.getEmailId());
+			userEntity.setPassword(userRequestDTO.getPassword());
+			userEntity.setDateOfBirth(Date.valueOf(userRequestDTO.getDateOfBirth()));
 			
 			
 		}

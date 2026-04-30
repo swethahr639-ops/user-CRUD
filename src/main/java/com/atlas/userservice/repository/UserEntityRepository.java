@@ -7,11 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.atlas.userservice.repository.entity.UserEntity;
 
-@Repository
+
 /*
  * Repository interface for userEntity provides CRUD Operations without
  * implementations
  */
+@Repository
 public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
 	
 	Optional<UserEntity> findByEmailIdAndPassword(String emailid,String password);

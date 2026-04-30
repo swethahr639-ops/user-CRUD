@@ -1,5 +1,7 @@
 package com.atlas.userservice.controller;
 
+
+
 import java.util.List;
 
 import org.springframework.http.HttpHeaders;
@@ -34,8 +36,8 @@ public class UserController {
 	}
 
 	@PostMapping
-	public ResponseEntity<CommonResponseDTO<Long>> saveUser(@RequestBody @Valid UserRequestDTO uaerRequestDTO) {
-		return new ResponseEntity<>(userService.saveUser(uaerRequestDTO), HttpStatus.CREATED);
+	public ResponseEntity<CommonResponseDTO<Long>> saveUser(@RequestBody @Valid UserRequestDTO userRequestDTO) {
+		return new ResponseEntity<>(userService.saveUser(userRequestDTO), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{userId}")

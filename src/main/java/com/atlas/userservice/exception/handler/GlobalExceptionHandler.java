@@ -61,7 +61,7 @@ public class GlobalExceptionHandler {
 	 */
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex) {
-		ErrorResponse error = new ErrorResponse("Somethin went wrong.please try again later",
+		ErrorResponse error = new ErrorResponse("Somethin went wrong.please try again later"+ex,
 				HttpStatus.INTERNAL_SERVER_ERROR.value(), LocalDateTime.now());
 		return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR); // return response with status 500
 	}
